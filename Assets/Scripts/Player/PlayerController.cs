@@ -35,39 +35,32 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PCMovement();
+        MovePlayer();
     }
 
 
     #region Button Controls
-    public void LeftButton()
+    void MovePlayer()
     {
-        if(transform.position.x > -_xBounds)
+        if (Input.touchCount > 0)
         {
-            transform.Translate(Vector2.left * _speed * Time.deltaTime);
+            Touch touch = Input.GetTouch(0);
+            float screenWidth = Screen.width;
+
+            // Check if the touch position is on the left half of the screen
+            if (touch.position.x < screenWidth / 2f && transform.position.x > -_xBounds)
+            {
+                // Move the player to the left
+                transform.Translate(Vector3.left * _speed * Time.deltaTime);
+            }
+            // Check if the touch position is on the right half of the screen
+            else if (touch.position.x >= screenWidth / 2f && transform.position.x < _xBounds)
+            {
+                // Move the player to the right
+                transform.Translate(Vector3.right * _speed * Time.deltaTime);
+            }
         }
     }
-
-    public void RightButton()
-    {
-        if(transform.position.x < _xBounds)
-        {
-            transform.Translate(Vector2.right * _speed * Time.deltaTime);
-        }
-    }
-
-
-    //This method is for testing purposes on pc
-    /// <summary>
-    /// Method is made only for testing purposes on PC
-    /// </summary>
-    void PCMovement()
-    {
-        float horizontalMovement = Input.GetAxis("Horizontal");
-
-        transform.Translate(Vector2.right * horizontalMovement * _speed * Time.deltaTime);
-    }
-
 
     #endregion
 
