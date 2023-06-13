@@ -9,7 +9,6 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject[] _colorStrips;
     [SerializeField] private float _spawnTime = 3f;
 
-    [SerializeField] private GameObject _Obstacle;
 
     private bool _stopSpawning = false;
     #endregion
