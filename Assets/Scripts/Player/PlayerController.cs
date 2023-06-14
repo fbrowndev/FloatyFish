@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     #region Player variables
     [Header("Player Settings")]
+    [SerializeField] private int _points = 5;
+    [SerializeField] private int _playerLives = 3;
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _xBounds = 2;
 
@@ -16,11 +18,14 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private GameManager _gameManager;
 
+    private string _currentColor;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        _playerLives = 3;
+
         _spriteRenderer = GetComponent<SpriteRenderer>(); //Gaining access to the sprite render to change color
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); //access the game manager script by first finding game object
 
@@ -43,8 +48,19 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovePlayer();
+        GameOverCheck();
     }
 
+    /// <summary>
+    /// Checking for the loss of the game
+    /// </summary>
+    void GameOverCheck()
+    {
+        if(_playerLives <= 0)
+        {
+            _gameManager.GameOver();
+        }
+    }
 
     #region Button Controls
     void MovePlayer()
@@ -76,6 +92,28 @@ public class PlayerController : MonoBehaviour
     {
         int _randColor = Random.Range(0, _playerColors.Length);
         _spriteRenderer.material.color = _playerColors[_randColor];
+
+        switch(_randColor)
+        {
+            case 0:
+                _currentColor = "Red";
+                break;
+            case 1:
+                _currentColor = "Blue";
+                break;
+            case 2:
+                _currentColor = "Green";
+                break;
+            case 3:
+                _currentColor = "Yellow";
+                break;
+            case 4:
+                _currentColor = "Purple";
+                break;
+            default:
+                Debug.LogError("No color choosen");
+                break;
+        }
     }
 
     #endregion
@@ -83,7 +121,14 @@ public class PlayerController : MonoBehaviour
     #region Collision Handlers
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.tag == _currentColor)
+        {
+            _gameManager.AddPoints(_points);
+        }
+        else if(collision.tag != _currentColor)
+        {
+            
+        }
     }
 
 
@@ -93,7 +138,13 @@ public class PlayerController : MonoBehaviour
     /// <param name="collision"></param>
     void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag == "ColorStrip")
+        if(collision.tag != _currentColor)
+        {
+            _playerLives--;
+            _gameManager.UpdateLives(_playerLives);
+            ColorSwitch();
+        }
+        else if(collision.tag == _currentColor)
         {
             ColorSwitch();
         }

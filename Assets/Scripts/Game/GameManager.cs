@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     //UI references
     [Header("UI Elements")]
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _LivesText;
+
+    [Header("Game Menus")]
+    [SerializeField] private GameObject _GameOverScreen;
 
     #endregion
 
@@ -34,10 +38,21 @@ public class GameManager : MonoBehaviour
     /// Below two scripts handling the score display
     /// </summary>
     /// <param name="points"></param>
-    void AddPoints(int points)
+    public void AddPoints(int points)
     {
         _score += points;
-        _scoreText.text = "Score: " + _score.ToString();
+        _scoreText.text = "SCORE: " + _score.ToString();
+    }
+
+    public void UpdateLives(int lives)
+    {
+        _LivesText.text = "LIVES: " + lives.ToString();
+    }
+
+    public void GameOver()
+    {
+        _GameOverScreen.SetActive(true);
+        Time.timeScale = 0f;
     }
 
 
