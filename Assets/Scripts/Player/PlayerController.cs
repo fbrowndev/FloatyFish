@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Color32[] _playerColors;
 
     private SpriteRenderer _spriteRenderer;
+    private GameManager _gameManager;
 
     #endregion
 
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>(); //Gaining access to the sprite render to change color
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); //access the game manager script by first finding game object
 
         ColorSwitch(); //Switching color at the start of the game
 
@@ -28,7 +30,12 @@ public class PlayerController : MonoBehaviour
         //Null checks below
         if(_spriteRenderer == null)
         {
-            Debug.LogError("_spriteRenderer is null");
+            Debug.LogError("_spriteRenderer is null!");
+        }
+
+        if( _gameManager == null)
+        {
+            Debug.LogError("_gameManager is null!");
         }
     }
 
@@ -74,6 +81,16 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Collision Handlers
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
+
+    /// <summary>
+    /// Changing the color on exit
+    /// </summary>
+    /// <param name="collision"></param>
     void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag == "ColorStrip")
