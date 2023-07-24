@@ -35,8 +35,8 @@ public class UIManager : MonoBehaviour
 
     public void QuitGame()
     {
-        SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 
 

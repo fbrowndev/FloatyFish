@@ -56,13 +56,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void GameOverCheck()
     {
-        if(_playerLives <= 0)
+        if(_playerLives < 1)
         {
             _gameManager.GameOver();
         }
     }
 
-    #region Button Controls
+    #region Movement
     void MovePlayer()
     {
         if (Input.touchCount > 0)
@@ -124,10 +124,6 @@ public class PlayerController : MonoBehaviour
         if(collision.tag == _currentColor)
         {
             _gameManager.AddPoints(_points);
-        }
-        else if(collision.tag != _currentColor)
-        {
-            
         }
     }
 

@@ -30,14 +30,15 @@ public class Spawner : MonoBehaviour
     {
         GameObject[] _spawnGroup = _colorStrips;
         Vector3 _spawnPos = transform.position;
-        Instantiate(_spawnGroup[Random.Range(0, _spawnGroup.Length)], _spawnPos, Quaternion.identity);
+        int _randSpawn = Random.Range(0, _spawnGroup.Length);
+        Instantiate(_spawnGroup[_randSpawn], _spawnPos, Quaternion.identity);
     }
 
     #region Spawn Routines
 
     IEnumerator SpawnColorStripsRoutine()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
         while(_stopSpawning == false) 
         {
             SpawnGameObstacles();
